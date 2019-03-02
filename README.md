@@ -1,4 +1,4 @@
-![thrusters](https://i.imgur.com/4ckTCWf.png)
+![thrusters](https://i.imgur.com/Nfn6FYb.png)
 
 # Thrusters
 
@@ -22,6 +22,8 @@ You'll need the following installed to run the template successfully:
   * `gem install rails`
 * Yarn
   * `brew install yarn`
+* Redis
+  * `brew install redis`
 * Foreman (optional)
   * `gem install foreman`
 
@@ -42,6 +44,8 @@ To run your app, use `foreman start`.
 This will run `Procfile.dev` via `foreman start -f Procfile.dev` as configured by the `.foreman` file and will launch the development processes `rails server`, `sidekiq`, and `webpack-dev-server` processes. You can also run them in separate terminals manually if you prefer.
 
 A separate `Procfile` is generated for deploying to production.
+
+If all goes well, your app will be running on `localhost:5000`.
 
 ### Authenticate with social networks
 

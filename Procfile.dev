@@ -1,3 +1,2 @@
 web: rails server
-worker: sidekiq
 webpack: bin/webpack-dev-server

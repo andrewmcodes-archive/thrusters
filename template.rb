@@ -38,7 +38,8 @@ def rails_6?
 end
 
 def set_ruby_version
-  copy_file ".ruby-version"
+  # TODO: not working, probably need to gsub
+  # copy_file ".ruby-version"
 end
 
 def add_gems
@@ -120,13 +121,18 @@ def add_webpack
 end
 
 def add_javascript
-  run "yarn add expose-loader jquery popper.js bootstrap data-confirm-modal local-time"
+  run "yarn add expose-loader jquery popper.js bootstrap data-confirm-modal local-time turbolinks
+  @rails/webpacker babel-plugin-dynamic-import-node babel-plugin-macros postcss-flexbugs-fixes
+  @babel/plugin-proposal-class-properties @babel/plugin-proposal-object-rest-spread postcss-preset-env
+  @babel/plugin-syntax-dynamic-import @babel/plugin-transform-destructuring @babel/plugin-transform-regenerator
+  @babel/plugin-transform-runtime @babel/preset-env"
 
   if rails_5?
     run "yarn add @rails/actioncable@pre @rails/actiontext@pre @rails/activestorage@pre @rails/ujs@pre"
   end
 
-  run "yarn add -D eslint eslint-config-airbnb eslint-config-prettier eslint-import-resolver-webpack eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-prettier"
+  run "yarn add -D eslint eslint-config-airbnb eslint-config-prettier eslint-import-resolver-webpack
+  eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-prettier"
 
   content = <<-JS
 const webpack = require('webpack')
