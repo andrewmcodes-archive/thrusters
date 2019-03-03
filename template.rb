@@ -60,7 +60,8 @@ def add_gems
   gem 'sitemap_generator', '~> 6.0', '>= 6.0.1'
   gem 'whenever', require: false
   gem 'haml-rails', '~> 2.0'
-  # TODO: add pry-rails
+  gem 'rubocop', '~> 0.60', group: 'development, test'
+  gem 'pry-rails', group: 'development, test'
 
   if rails_5?
     gsub_file "Gemfile", /gem 'sqlite3'/, "gem 'sqlite3', '~> 1.3.0'"
@@ -121,13 +122,18 @@ def add_webpack
 end
 
 def add_javascript
-  run "yarn add expose-loader jquery popper.js bootstrap data-confirm-modal local-time turbolinks @rails/webpacker babel-plugin-dynamic-import-node babel-plugin-macros postcss-flexbugs-fixes @babel/plugin-proposal-class-properties @babel/plugin-proposal-object-rest-spread postcss-preset-env @babel/plugin-syntax-dynamic-import @babel/plugin-transform-destructuring @babel/plugin-transform-regenerator @babel/core @babel/plugin-transform-runtime @babel/preset-env"
+  run "yarn add expose-loader jquery popper.js bootstrap data-confirm-modal local-time turbolinks@^5.1.1
+    @rails/webpacker@next babel-plugin-dynamic-import-node babel-plugin-macros postcss-flexbugs-fixes
+    @babel/plugin-proposal-class-properties @babel/plugin-proposal-object-rest-spread postcss-preset-env
+    @babel/plugin-syntax-dynamic-import @babel/plugin-transform-destructuring @babel/plugin-transform-regenerator
+    @babel/core @babel/plugin-transform-runtime"
 
   if rails_5?
     run "yarn add @rails/actioncable@pre @rails/actiontext@pre @rails/activestorage@pre @rails/ujs@pre"
   end
 
-  run "yarn add -D prettier webpack-cli eslint eslint-config-airbnb eslint-config-prettier eslint-import-resolver-webpack eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-prettier"
+  run "yarn add -D prettier webpack-cli eslint eslint-config-airbnb eslint-config-prettier
+    eslint-import-resolver-webpack eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-prettier"
 
   content = <<-JS
 const webpack = require('webpack')
@@ -268,6 +274,13 @@ def run_rubocop_autofix
   run "bundle exec rubocop -a"
 end
 
+def update_webpacker_config
+  run "rm -rf ./app/javascript"
+  gsub_file "./config/webpacker.yml", /source_path: app\/javascript/, "source_path: app/frontend"
+  remove_file "./config/webpack/environment.js"
+  copy_file "./config/webpack/environment.js"
+end
+
 # Main setup
 add_template_repository_to_source_path
 
@@ -280,6 +293,7 @@ after_bundle do
   add_users
   add_webpack
   add_javascript
+  update_webpacker_config
   add_announcements
   add_notifications
   add_multiple_authentication
@@ -292,7 +306,6 @@ after_bundle do
   add_sitemap
 
   # Migrate
-  rails_command "db:reset"
   rails_command "db:migrate RAILS_ENV=development"
   rails_command "db:migrate RAILS_ENV=test"
 
