@@ -121,18 +121,13 @@ def add_webpack
 end
 
 def add_javascript
-  run "yarn add expose-loader jquery popper.js bootstrap data-confirm-modal local-time turbolinks
-  @rails/webpacker babel-plugin-dynamic-import-node babel-plugin-macros postcss-flexbugs-fixes
-  @babel/plugin-proposal-class-properties @babel/plugin-proposal-object-rest-spread postcss-preset-env
-  @babel/plugin-syntax-dynamic-import @babel/plugin-transform-destructuring @babel/plugin-transform-regenerator
-  @babel/plugin-transform-runtime @babel/preset-env"
+  run "yarn add expose-loader jquery popper.js bootstrap data-confirm-modal local-time turbolinks @rails/webpacker babel-plugin-dynamic-import-node babel-plugin-macros postcss-flexbugs-fixes @babel/plugin-proposal-class-properties @babel/plugin-proposal-object-rest-spread postcss-preset-env @babel/plugin-syntax-dynamic-import @babel/plugin-transform-destructuring @babel/plugin-transform-regenerator @babel/core @babel/plugin-transform-runtime @babel/preset-env"
 
   if rails_5?
     run "yarn add @rails/actioncable@pre @rails/actiontext@pre @rails/activestorage@pre @rails/ujs@pre"
   end
 
-  run "yarn add -D eslint eslint-config-airbnb eslint-config-prettier eslint-import-resolver-webpack
-  eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-prettier"
+  run "yarn add -D prettier webpack-cli eslint eslint-config-airbnb eslint-config-prettier eslint-import-resolver-webpack eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-prettier"
 
   content = <<-JS
 const webpack = require('webpack')
@@ -154,6 +149,8 @@ def copy_templates
   copy_file ".eslintrc.js"
   copy_file ".prettierignore"
   copy_file "prettier.config.js"
+  remove_file "babel.config.js"
+  copy_file "babel.config.js"
 
   directory "app", force: true
   directory "config", force: true
@@ -263,6 +260,7 @@ def add_sitemap
 end
 
 def add_rubocop
+  run "bundle binstubs rubocop"
   copy_file ".rubocop.yml"
 end
 
@@ -294,8 +292,9 @@ after_bundle do
   add_sitemap
 
   # Migrate
-  rails_command "db:create"
-  rails_command "db:migrate"
+  rails_command "db:reset"
+  rails_command "db:migrate RAILS_ENV=development"
+  rails_command "db:migrate RAILS_ENV=test"
 
   # Migrations must be done before this
   add_administrate
