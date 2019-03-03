@@ -324,7 +324,7 @@ after_bundle do
   git commit: %Q{ -m 'Initial commit' }
 
   say
-  say "Jumpstart app successfully created!", :blue
+  say "Thrusters app successfully created!", :blue
   say
   say "To get started with your new app:", :green
   say "cd #{app_name} - Switch to your new app's directory."
