@@ -277,8 +277,9 @@ def run_rubocop_autofix
 end
 
 def update_webpacker_config
-  run "rm -rf ./app/javascript"
+  run "rm -rf ./app/assets"
   gsub_file "./config/webpacker.yml", /source_path: app\/javascript/, "source_path: app/frontend"
+  # run "rm -rf ./app/javascript"
   remove_file "./config/webpack/environment.js"
   copy_file "./config/webpack/environment.js"
 end
@@ -290,7 +291,7 @@ add_gems
 
 after_bundle do
   set_application_name
-  # set_ruby_version
+  # set_ruby_version - still broken
   stop_spring
   add_users
   add_webpack
@@ -308,6 +309,7 @@ after_bundle do
   add_sitemap
 
   # Migrate
+  rails_command "db:reset"
   rails_command "db:migrate RAILS_ENV=development"
   rails_command "db:migrate RAILS_ENV=test"
 
