@@ -9,15 +9,15 @@ require "shellwords"
 def add_template_repository_to_source_path
   if __FILE__ =~ %r{\Ahttps?://}
     require "tmpdir"
-    source_paths.unshift(tempdir = Dir.mktmpdir("jumpstart-"))
+    source_paths.unshift(tempdir = Dir.mktmpdir("thrusters-"))
     at_exit { FileUtils.remove_entry(tempdir) }
     git clone: [
       "--quiet",
-      "https://github.com/excid3/jumpstart.git",
+      "https://github.com/andrewmcodes/thrusters.git",
       tempdir
     ].map(&:shellescape).join(" ")
 
-    if (branch = __FILE__[%r{jumpstart/(.+)/template.rb}, 1])
+    if (branch = __FILE__[%r{thrusters/(.+)/template.rb}, 1])
       Dir.chdir(tempdir) { git checkout: branch }
     end
   else
@@ -38,8 +38,9 @@ def rails_6?
 end
 
 def set_ruby_version
-  # TODO: not working, probably need to gsub
-  # copy_file ".ruby-version"
+  gsub_file "Gemfile", /ruby '2.6.0'/, "ruby '2.6.1'"
+  # remove_file ".ruby_version"
+  copy_file ".ruby-version", force: true
 end
 
 def add_gems
@@ -254,7 +255,8 @@ def add_friendly_id
 end
 
 def haml_convert
-  run "HAML_RAILS_DELETE_ERB=true rails haml:erb2haml"
+  # https://askubuntu.com/a/338860
+  run "yes | HAML_RAILS_DELETE_ERB=true rails haml:erb2haml"
 end
 
 def stop_spring
@@ -288,7 +290,7 @@ add_gems
 
 after_bundle do
   set_application_name
-  set_ruby_version
+  # set_ruby_version
   stop_spring
   add_users
   add_webpack
