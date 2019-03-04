@@ -78,6 +78,11 @@ def set_application_name
   puts "You can change application name inside: ./config/application.rb"
 end
 
+def reset_application_haml
+  remove_file "app/views/layouts/application.html.haml"
+  copy_file "app/views/layouts/application.html.haml"
+end
+
 def add_users
   # Install Devise
   generate "devise:install"
@@ -279,7 +284,7 @@ end
 def update_webpacker_config
   run "rm -rf ./app/assets"
   gsub_file "./config/webpacker.yml", /source_path: app\/javascript/, "source_path: app/frontend"
-  # run "rm -rf ./app/javascript"
+  run "rm -rf ./app/javascript"
   remove_file "./config/webpack/environment.js"
   copy_file "./config/webpack/environment.js"
 end
@@ -315,6 +320,8 @@ after_bundle do
 
   # Migrations must be done before this
   add_administrate
+
+  reset_application_haml
 
   # Run robocop autofix
   add_rubocop
