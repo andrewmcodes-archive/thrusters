@@ -46,23 +46,24 @@ end
 def add_gems
   gem 'administrate', github: "excid3/administrate", branch: "zeitwerk"
   gem 'bootstrap', '~> 4.3', '>= 4.3.1'
-  gem 'devise', '~> 4.6', '>= 4.6.1'
-  gem 'devise-bootstrapped', github: 'excid3/devise-bootstrapped', branch: 'bootstrap4'
+  gem 'brakeman', group: 'development'
   gem 'devise_masquerade', '~> 0.6.2'
+  gem 'devise-bootstrapped', github: 'excid3/devise-bootstrapped', branch: 'bootstrap4'
+  gem 'devise', '~> 4.6', '>= 4.6.1'
   gem 'font-awesome-sass', '~> 5.6', '>= 5.6.1'
   gem 'friendly_id', '~> 5.2', '>= 5.2.5'
   gem 'gravatar_image_tag', github: 'mdeering/gravatar_image_tag'
+  gem 'haml-rails', '~> 2.0'
   gem 'mini_magick', '~> 4.9', '>= 4.9.2'
   gem 'name_of_person', '~> 1.1'
   gem 'omniauth-facebook', '~> 5.0'
   gem 'omniauth-github', '~> 1.3'
   gem 'omniauth-twitter', '~> 1.4'
+  gem 'pry-rails', group: 'development, test'
+  gem 'rubocop', '~> 0.60', group: 'development, test'
   gem 'sidekiq', '~> 5.2', '>= 5.2.5'
   gem 'sitemap_generator', '~> 6.0', '>= 6.0.1'
   gem 'whenever', require: false
-  gem 'haml-rails', '~> 2.0'
-  gem 'rubocop', '~> 0.60', group: 'development, test'
-  gem 'pry-rails', group: 'development, test'
 
   if rails_5?
     gsub_file "Gemfile", /gem 'sqlite3'/, "gem 'sqlite3', '~> 1.3.0'"
