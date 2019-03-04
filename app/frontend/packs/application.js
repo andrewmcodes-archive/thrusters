@@ -3,7 +3,7 @@ import Turbolinks from 'turbolinks'
 
 // Reference the new application.scss in your app / javascript / packs / application.js
 import 'bootstrap'
-import './stylesheet.scss'
+import './stylesheets.scss'
 import 'data-confirm-modal'
 
 // Local files

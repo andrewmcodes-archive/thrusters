@@ -9,15 +9,15 @@ require "shellwords"
 def add_template_repository_to_source_path
   if __FILE__ =~ %r{\Ahttps?://}
     require "tmpdir"
-    source_paths.unshift(tempdir = Dir.mktmpdir("jumpstart-"))
+    source_paths.unshift(tempdir = Dir.mktmpdir("thrusters-"))
     at_exit { FileUtils.remove_entry(tempdir) }
     git clone: [
       "--quiet",
-      "https://github.com/excid3/jumpstart.git",
+      "https://github.com/andrewmcodes/thrusters.git",
       tempdir
     ].map(&:shellescape).join(" ")
 
-    if (branch = __FILE__[%r{jumpstart/(.+)/template.rb}, 1])
+    if (branch = __FILE__[%r{thrusters/(.+)/template.rb}, 1])
       Dir.chdir(tempdir) { git checkout: branch }
     end
   else
@@ -38,8 +38,9 @@ def rails_6?
 end
 
 def set_ruby_version
-  # TODO: not working, probably need to gsub
-  # copy_file ".ruby-version"
+  gsub_file "Gemfile", /ruby '2.6.0'/, "ruby '2.6.1'"
+  # remove_file ".ruby_version"
+  copy_file ".ruby-version", force: true
 end
 
 def add_gems
@@ -75,6 +76,11 @@ def set_application_name
 
   # Announce the user where he can change the application name in the future.
   puts "You can change application name inside: ./config/application.rb"
+end
+
+def reset_application_haml
+  remove_file "app/views/layouts/application.html.haml"
+  copy_file "app/views/layouts/application.html.haml"
 end
 
 def add_users
@@ -254,7 +260,8 @@ def add_friendly_id
 end
 
 def haml_convert
-  run "HAML_RAILS_DELETE_ERB=true rails haml:erb2haml"
+  # https://askubuntu.com/a/338860
+  run "yes | HAML_RAILS_DELETE_ERB=true rails haml:erb2haml"
 end
 
 def stop_spring
@@ -275,8 +282,9 @@ def run_rubocop_autofix
 end
 
 def update_webpacker_config
-  run "rm -rf ./app/javascript"
+  run "rm -rf ./app/assets"
   gsub_file "./config/webpacker.yml", /source_path: app\/javascript/, "source_path: app/frontend"
+  run "rm -rf ./app/javascript"
   remove_file "./config/webpack/environment.js"
   copy_file "./config/webpack/environment.js"
 end
@@ -288,7 +296,7 @@ add_gems
 
 after_bundle do
   set_application_name
-  set_ruby_version
+  # set_ruby_version - still broken
   stop_spring
   add_users
   add_webpack
@@ -306,11 +314,14 @@ after_bundle do
   add_sitemap
 
   # Migrate
+  rails_command "db:reset"
   rails_command "db:migrate RAILS_ENV=development"
   rails_command "db:migrate RAILS_ENV=test"
 
   # Migrations must be done before this
   add_administrate
+
+  reset_application_haml
 
   # Run robocop autofix
   add_rubocop
@@ -322,7 +333,7 @@ after_bundle do
   git commit: %Q{ -m 'Initial commit' }
 
   say
-  say "Jumpstart app successfully created!", :blue
+  say "Thrusters app successfully created!", :blue
   say
   say "To get started with your new app:", :green
   say "cd #{app_name} - Switch to your new app's directory."
