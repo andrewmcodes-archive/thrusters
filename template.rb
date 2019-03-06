@@ -67,7 +67,7 @@ def add_gems
 
   if rails_5?
     gsub_file "Gemfile", /gem 'sqlite3'/, "gem 'sqlite3', '~> 1.3.0'"
-    gem 'webpacker', '~> 4.0.0.rc.7'
+    gem 'webpacker', '~> 4.0.1'
   end
 end
 
