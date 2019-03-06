@@ -12,11 +12,9 @@ Thrusters is an opinionated Rails app bootstrapper.
 
 ### Common errors
 
-If you get an error that starts with `NameError: uninitialized constant MyAppName::Application::MyApplication` then check line 13 of `config/application.rb`.
+If you get an error that starts with `NameError: uninitialized constant MyAppName::Application::MyApplication` then check line 13 of `config/application.rb`. This issue is mitigated if you name your app `MyNewApp` vs `my-new-app` or `my_new_app`.
 
-Additionally, you may need to run `bin/rails db:reset && bin/rails db:migrate`.
-
-These are both known bugs and are being worked on!
+These are known bugs and are being worked on!
 
 ### Requirements
 
