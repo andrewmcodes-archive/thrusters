@@ -1,5 +1,3 @@
-## :no_entry: BROKEN - DO NOT USE :no_entry:
-
 ![thrusters](https://i.imgur.com/Nfn6FYb.png)
 
 # Thrusters
@@ -11,6 +9,14 @@ Thrusters is an opinionated Rails app bootstrapper.
 **Ruby Version**: 2.6.1
 
 ## Getting Started
+
+### Common errors
+
+If you get an error that starts with `NameError: uninitialized constant MyAppName::Application::MyApplication` then check line 13 of `config/application.rb`.
+
+Additionally, you may need to run `bin/rails db:reset && bin/rails db:migrate`.
+
+These are both known bugs and are being worked on!
 
 ### Requirements
 
