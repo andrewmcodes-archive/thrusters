@@ -6,7 +6,7 @@ Thrusters is an opinionated Rails app bootstrapper.
 
 **Rails Version**: 5.2
 
-**Ruby Version**: 2.6.1
+**Ruby Version**: 2.6.2
 
 ## Getting Started
 
@@ -20,7 +20,7 @@ These are known bugs and are being worked on!
 
 You'll need the following installed to run the template successfully:
 
-* Ruby 2.6.1
+* Ruby 2.6.2
   * Editable via `.ruby-version` file
 * Bundler
   * `gem install bundler`
