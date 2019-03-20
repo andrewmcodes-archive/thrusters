@@ -40,7 +40,7 @@ def rails_6?
 end
 
 def set_ruby_version
-  gsub_file "Gemfile", /ruby '2.6.0'/, "ruby '2.6.1'"
+  gsub_file "Gemfile", /ruby '2.6.0'/, "ruby '2.6.2'"
   # remove_file ".ruby_version"
   copy_file ".ruby-version", force: true
 end
