@@ -1,4 +1,5 @@
 ![thrusters](https://i.imgur.com/Nfn6FYb.png)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fandrewmcodes%2Fthrusters.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fandrewmcodes%2Fthrusters?ref=badge_shield)
 
 # Thrusters
 
@@ -104,3 +105,7 @@ rm -rf myapp
 ## Recognition
 
 This project was originally forked from [excid3/jumpstart](https://github.com/excid3/jumpstart). Many thanks to [Chris Oliver](https://github.com/excid3) for creating this awesome project.
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fandrewmcodes%2Fthrusters.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fandrewmcodes%2Fthrusters?ref=badge_large)
