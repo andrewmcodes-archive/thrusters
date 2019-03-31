@@ -105,7 +105,7 @@ rm -rf myapp
 
 ## License
 
-[MIT](/LICENSE)
+[MIT](/LICENSE.md)
 
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fandrewmcodes%2Fthrusters.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fandrewmcodes%2Fthrusters?ref=badge_large)
 
